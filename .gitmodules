@@ -1,0 +1,6 @@
+[submodule "TuDu-Frontend"]
+	path = TuDu-Frontend
+	url = https://github.com/TuDU-SE/TuDu-Frontend
+[submodule "TuDu-Backend"]
+	path = TuDu-Backend
+	url = https://github.com/TuDU-SE/TuDu-Backend
