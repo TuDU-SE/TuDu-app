@@ -1,0 +1,58 @@
+version: "3.9"
+services:
+    api:
+        build:
+            context: ./TuDu-Backend/
+            dockerfile: Dockerfile
+        ports:
+            - "8080:8080"
+        depends_on:
+            - db
+        networks:
+            - api-network
+            - db-network
+    db:
+        image: postgres
+        container_name: db
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        ports:
+            -   "5432:5432"
+        networks:
+            - db-network
+    
+#    frontend:
+#        build:
+#            context: ./TuDu-Frontend/
+#            dockerfile: Dockerfile
+#        depends_on:
+#            - api
+#        ports:
+#            - "3000:3000"
+              
+    app-node:
+        image: svelte-docker-node
+        build:
+            context: ./TuDu-Frontend/
+            dockerfile: Dockerfile
+            target: deploy-node
+        ports:
+            - 3000:3000
+        depends_on:
+            - api
+        networks:
+            - api-network
+        environment:
+            - ORIGIN=http://localhost:3000
+        
+
+volumes:
+    pgdata:
+
+networks:
+    api-network:
+    db-network:
